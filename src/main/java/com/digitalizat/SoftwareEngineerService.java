@@ -27,21 +27,19 @@ public class SoftwareEngineerService {
     }
 
     // Adds a new Software Engineer to the database
-    public void addSoftwareEngineer(SoftwareEngineer softwareEngineer) {
+    public void createSoftwareEngineer(SoftwareEngineer softwareEngineer) {
         softwareEngineerRepository.save(softwareEngineer);
     }
 
-    // Deletes a Software Engineer from the database
-    public void deleteSoftwareEngineer(SoftwareEngineer softwareEngineer) {
-        softwareEngineerRepository.delete(softwareEngineer);
+    // Deletes a Software Engineer by ID from the database
+    public void deleteSoftwareEngineerById(Integer id) {
+        softwareEngineerRepository.deleteById(id);
     }
 
     // Updates an existing Software Engineer in the database
     public void updateSoftwareEngineer(SoftwareEngineer softwareEngineer) {
-        if (softwareEngineerRepository.existsById(softwareEngineer.getId())) {
-            softwareEngineerRepository.save(softwareEngineer);
-        } else {
-            throw new IllegalArgumentException("Software Engineer with ID " + softwareEngineer.getId() + " does not exist.");
-        }
+        getSoftwareEngineerById(softwareEngineer.getId());
+        softwareEngineerRepository.save(softwareEngineer);
     }
+
 }

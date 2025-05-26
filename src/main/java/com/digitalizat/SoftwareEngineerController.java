@@ -1,5 +1,7 @@
 package com.digitalizat;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -8,39 +10,42 @@ import java.util.List;
 @RequestMapping("/api/v1/software-engineers")
 public class SoftwareEngineerController {
 
-    private final SoftwareEngineerService SoftwareEngineerService;
+    private final SoftwareEngineerService softwareEngineerService;
 
     public SoftwareEngineerController(SoftwareEngineerService softwareEngineerService) {
-        this.SoftwareEngineerService = softwareEngineerService;
+        this.softwareEngineerService = softwareEngineerService;
     }
 
-    // Get all software engineers
-    @GetMapping()
-    public List<SoftwareEngineer> getSoftwareEngineers() {
-        return SoftwareEngineerService.getAllSoftwareEngineers();
+    // GET /api/v1/software-engineers
+    @GetMapping
+    public List<SoftwareEngineer> getAll() {
+        return softwareEngineerService.getAllSoftwareEngineers();
     }
 
-    // Get a software engineer by ID
+    // GET /api/v1/software-engineers/{id}
     @GetMapping("/{id}")
-    public SoftwareEngineer getSoftwareEngineerById(@PathVariable Integer id) {
-        return SoftwareEngineerService.getSoftwareEngineerById(id);
+    public SoftwareEngineer getById(@PathVariable Integer id) {
+        return softwareEngineerService.getSoftwareEngineerById(id);
     }
 
-    // Add a new software engineer
-    @PostMapping()
-    public void addSoftwareEngineer(@RequestBody SoftwareEngineer softwareEngineer) {
-         SoftwareEngineerService.addSoftwareEngineer(softwareEngineer);
+    // POST /api/v1/software-engineers
+    @PostMapping
+    public ResponseEntity<Void> create(@RequestBody SoftwareEngineer softwareEngineer) {
+        softwareEngineerService.createSoftwareEngineer(softwareEngineer);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    // Delete a software engineer
-    @DeleteMapping()
-    public void deleteSoftwareEngineer(@RequestBody SoftwareEngineer softwareEngineer) {
-        SoftwareEngineerService.deleteSoftwareEngineer(softwareEngineer);
+    // PUT /api/v1/software-engineers
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody SoftwareEngineer softwareEngineer) {
+        softwareEngineerService.updateSoftwareEngineer(softwareEngineer);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // Update an existing software engineer
-    @PutMapping()
-    public void updateSoftwareEngineer(@RequestBody SoftwareEngineer softwareEngineer) {
-        SoftwareEngineerService.updateSoftwareEngineer(softwareEngineer);
+    // DELETE /api/v1/software-engineers/{id}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        softwareEngineerService.deleteSoftwareEngineerById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
